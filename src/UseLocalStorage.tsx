@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 /**
  * Implement a replacement for useState which keeps values in the localStorage.
@@ -28,23 +28,35 @@ import React from 'react';
  * @param initialValue The initial value to store for the first value.
  */
 export function useLocalStorageState<V>(key: string, initialValue: V): [V, (newValue: V) => void] {
-
+    const [initialState, setInitialState] = useState(initialValue);
+    
     // TODO: implement this code - this just returns 'any' which would not be usable.
-
-    return [] as any;
-
+    const setUseLocalStorage = (value: V): any => {
+        if (typeof value === 'number' || typeof value === 'string' || typeof value === 'object') {
+            localStorage.setItem(key, value as any);
+            setInitialState(value);
+        }
+    }
+    return [initialState, setUseLocalStorage];
 }
 
 export const RememberPassword = () => {
 
     // TODO: change this to use useLocalStorageState
     const [value, setValue] = React.useState('off');
-    // const [value, setValue] = useLocalStorageState('remember-password', 'off');
+    const [localStorageState, setUseLocalStorageState] = useLocalStorageState('remember-password', 'off');
+
+    const handleUseLocalStorageState = () => {
+        setUseLocalStorageState('another thing')
+    }
 
     return (
-        <input type="checkbox"
-               value={value}
-               onChange={event => setValue(event.currentTarget.value)}/>
+        <>
+            {localStorageState}
+            <input type="checkbox"
+                value={value}
+                onChange={event => setValue(event.currentTarget.value)}/>
+        </>
     );
 
 }

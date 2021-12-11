@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement, useState } from 'react';
 
-export const App = () => {
+export const App = ():ReactElement => {
 
     return (
         <Main/>
@@ -9,7 +9,7 @@ export const App = () => {
 }
 
 
-export const Main = () => {
+export const Main = ():ReactElement => {
 
     return (
         <div>
@@ -21,15 +21,14 @@ export const Main = () => {
 
 export const Settings = () => {
 
-    const toggleMode = React.useCallback(() => {
+    const [darkMode, setDarkMode] = useState(false)
 
-    }, []);
+    const toggleMode = React.useCallback(() => {
+        setDarkMode(!darkMode)
+    }, [darkMode]);
 
     return (
         <button onClick={toggleMode}>toggle light/dark mode</button>
     );
 
 }
-
-
-
